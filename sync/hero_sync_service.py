@@ -28,9 +28,10 @@ class HeroSyncService:
     async def sync(self):
 
         last_full_update = await self.cache_service.get(CACHE_MARKET_HERO_LAST_FULL_UPDATE)
-        
-        do_full_update = (not last_full_update) or ((datetime.now().timestamp() - last_full_update) > 1800)
-        
+
+        do_full_update = (not last_full_update) or (
+            (datetime.now().timestamp() - last_full_update) > 1800)
+
         if do_full_update:
             logging.warn("Performing full update")
 
@@ -54,14 +55,15 @@ class HeroSyncService:
 
         new_documents: List[HeroListingModel] = self.map_hero_listings(dtos)
 
-        print(
-            f"Fetched new market buy documents, length: {len(new_documents)}")
+        logging.warn(
+            f"Fetched new market buy documents, length: {len(new_documents)}"
+        )
 
         self.hero_listing_repo.save(new_documents, do_full_update)
 
         if do_full_update:
             await self.cache_service.set(
-                CACHE_MARKET_HERO_LAST_FULL_UPDATE, 
+                CACHE_MARKET_HERO_LAST_FULL_UPDATE,
                 datetime.now().timestamp()
             )
 

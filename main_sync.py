@@ -1,5 +1,6 @@
 
 import asyncio
+import logging
 
 from decouple import AutoConfig
 from ekp_sdk import BaseContainer
@@ -46,7 +47,7 @@ class AppContainer(BaseContainer):
 if __name__ == '__main__':
     container = AppContainer()
 
-    print("🚀 Application Start")
+    logging.warn("🚀 Application Start")
 
     loop = asyncio.get_event_loop()
     
