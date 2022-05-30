@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: listener-deploy
+spec:
+  selector:
+    matchLabels:
+      app: listener
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: listener
+    spec:
+      containers:
+        - name: python
+          image: '{{ .Values.werf.image.listener }}'
+          workingDir: /app
+          env:
+            - name: WEB3_PROVIDER_URL
+              value: "{{ .Values.web3.providerUrl }}"
+

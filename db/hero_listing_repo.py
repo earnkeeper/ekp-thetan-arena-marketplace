@@ -25,6 +25,11 @@ class HeroListingRepo:
         
         return results
     
+    def remove_by_token_id(self, token_id):
+        self.collection.delete_many({
+            "tokenId": token_id
+        })
+        
     def save(self, models, overwrite = False):
         if not len(models):
             return
