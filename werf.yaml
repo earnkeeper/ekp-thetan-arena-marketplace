@@ -1,0 +1,6 @@
+configVersion: 1
+project: thetan-arena-marketplace
+---
+image: sync
+dockerfile: Dockerfile.sync
+context: .

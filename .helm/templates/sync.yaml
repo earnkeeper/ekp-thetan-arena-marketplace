@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sync
+spec:
+  schedule: "* * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            job: sync
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: python
+              image: "{{ .Values.werf.image.sync }}"
+              workingDir: /app
+              env:
+                - name: MONGO_URI
+                  value: "{{ .Values.mongodb.uri }}"
+                - name: MONGO_DB_NAME
+                  value: "{{ .Values.mongodb.dbName }}"
+                - name: REDIS_URI
+                  value: 'redis://{{ .Release.Name }}-redis-master'
