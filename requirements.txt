@@ -1,0 +1,2 @@
+ekp-sdk==0.5.6
+dateutil
