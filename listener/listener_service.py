@@ -54,10 +54,9 @@ class ListenerService:
                 quit()
 
     async def process_hero_sale(self, log_dto: Web3LogDto):
-        print(log_dto)
-        token_id = literal_eval(log_dto["topics"][0])
+        token_id = literal_eval(log_dto["topics"][1])
 
         logging.warn(
-            f"Received market match log for token id and transaction hash: ${token_id} - ${log_dto['transactionHash']}"
+            f"Received market match log for token id and transaction hash: {token_id} - {log_dto['transactionHash']}"
         )
-        self.hero_listing_repo.remove_by_token_id(token_id)
+        self.hero_listing_repo.remove_by_token_id(str(token_id))
