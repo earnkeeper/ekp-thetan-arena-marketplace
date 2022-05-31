@@ -17,8 +17,6 @@ class AppContainer(BaseContainer):
     def __init__(self):
         config = AutoConfig('.env')
 
-        FETCH_LIMIT = config("FETCH_LIMIT", cast=int, default=None)
-        
         super().__init__(config)
 
         # DB
@@ -41,14 +39,14 @@ class AppContainer(BaseContainer):
             cache_service=self.cache_service,
             hero_listing_repo=self.hero_listing_repo,
             thetan_api_service=self.thetan_api_service,
-            fetch_limit=FETCH_LIMIT
+            fetch_limit=None
         )
 
         self.rental_sync_service = RentalSyncService(
             cache_service=self.cache_service,
             rental_listing_repo=self.rental_listing_repo,
             thetan_api_service=self.thetan_api_service,
-            fetch_limit=FETCH_LIMIT
+            fetch_limit=None
         )
         
 if __name__ == '__main__':
