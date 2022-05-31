@@ -9,6 +9,7 @@ from db.hero_listing_repo import HeroListingRepo
 from db.rental_listing_repo import RentalListingRepo
 from shared.thetan_api_service import ThetanApiService
 from sync.hero_sync_service import HeroSyncService
+from sync.rental_sync_service import RentalSyncService
 
 
 
@@ -43,7 +44,13 @@ class AppContainer(BaseContainer):
             fetch_limit=FETCH_LIMIT
         )
 
-
+        self.rental_sync_service = RentalSyncService(
+            cache_service=self.cache_service,
+            rental_listing_repo=self.rental_listing_repo,
+            thetan_api_service=self.thetan_api_service,
+            fetch_limit=FETCH_LIMIT
+        )
+        
 if __name__ == '__main__':
     container = AppContainer()
 
@@ -51,7 +58,12 @@ if __name__ == '__main__':
 
     loop = asyncio.get_event_loop()
     
+    futures = [
+        container.hero_sync_service.sync(),
+        container.rental_sync_service.sync(),
+    ]
+        
     loop.run_until_complete(
-        container.hero_sync_service.sync()
+        asyncio.gather(*futures)
     )
 
