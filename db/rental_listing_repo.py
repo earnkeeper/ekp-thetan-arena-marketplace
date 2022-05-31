@@ -12,7 +12,12 @@ class RentalListingRepo:
         self.collection = self.mg_client.db['rental_listings']
         self.collection.create_index("id", unique=True)
         self.collection.create_index("token_id")
-    
+
+    def remove_by_token_id(self, token_id):
+        self.collection.delete_many({
+            "tokenId": token_id
+        })
+            
     def find_all(self):
         start = time.perf_counter()
         
