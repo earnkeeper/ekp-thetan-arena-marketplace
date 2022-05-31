@@ -22,4 +22,7 @@ spec:
           env:
             - name: WEB3_PROVIDER_URL
               value: "{{ .Values.web3.providerUrl }}"
-
+                - name: MONGO_URI
+                  value: "{{ .Values.mongodb.uri }}"
+                - name: MONGO_DB_NAME
+                  value: "{{ .Values.mongodb.dbName }}"
