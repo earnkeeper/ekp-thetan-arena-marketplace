@@ -34,7 +34,6 @@ jobs:
       - name: Get helm dependencies
         run: |
           werf helm repo add bitnami https://charts.bitnami.com/bitnami
-          werf helm dependency update .helm
         env:
           WERF_PLATFORM: linux/amd64
 
