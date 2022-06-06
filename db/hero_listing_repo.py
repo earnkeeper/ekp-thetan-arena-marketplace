@@ -38,10 +38,9 @@ class HeroListingRepo:
         
         if overwrite:
             self.collection.drop()
-            self.collection.insert_many(models)
-        else:
-            self.collection.bulk_write(
-                list(map(lambda model: UpdateOne({"id": model["id"]}, {"$set": model}, True), models))
-            )
+
+        self.collection.bulk_write(
+            list(map(lambda model: UpdateOne({"id": model["id"]}, {"$set": model}, True), models))
+        )
         
         print(f"⏱  [RentalListingRepo.save({len(models)})] {time.perf_counter() - start:0.3f}s")
