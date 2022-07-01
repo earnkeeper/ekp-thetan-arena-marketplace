@@ -22,7 +22,7 @@ class ThetanApiService:
         while True:
             paged_url = f"{url}&from={cursor}&size={self.page_size}"
 
-            new_dtos = await self.rest_client.get(paged_url, lambda data, text: data["data"], self.limiter)
+            new_dtos = await self.rest_client.get(paged_url, lambda data, text, response: data["data"], self.limiter)
 
             filtered_dtos = []
 
@@ -51,7 +51,7 @@ class ThetanApiService:
         while True:
             paged_url = f"{url}&from={cursor}&size={self.page_size}"
 
-            new_dtos = await self.rest_client.get(paged_url, lambda data, text: data["data"], self.limiter)
+            new_dtos = await self.rest_client.get(paged_url, lambda data, text, response: data["data"], self.limiter)
 
             filtered_dtos = []
 
