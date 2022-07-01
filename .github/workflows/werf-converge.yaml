@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - staging
 jobs:
   converge:
     name: Converge
@@ -42,16 +41,6 @@ jobs:
         run: |
           source $(werf ci-env github --as-file)
           werf converge
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          WERF_PLATFORM: linux/amd64
-          WERF_SECRET_KEY: ${{ secrets.WERF_SECRET_KEY }}
-
-      - name: Staging deploy
-        if: ${{ github.ref == 'refs/heads/staging' }}
-        run: |
-          source $(werf ci-env github --as-file)
-          werf converge --env staging
         env:
           GITHUB_TOKEN: ${{ github.token }}
           WERF_PLATFORM: linux/amd64
