@@ -113,7 +113,7 @@ class RentalSyncService:
                 "tokenId": dto["tokenId"],
                 "trophyClass": dto["trophyClass"],
                 "type": dto["heroTypeId"],
-                "rentBattles": dto["rentInfo"]["rentBattles"] if "rentInfo" in dto else None
+                "rentBattles": dto["rentOutInfo"]["rentBattles"] if "rentOutInfo" in dto else None
             }
 
             documents.append(document)

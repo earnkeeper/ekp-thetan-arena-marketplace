@@ -4,8 +4,8 @@ from dateutil import parser
 
 class ThetanApiService:
     def __init__(
-        self,
-        rest_client: RestClient
+            self,
+            rest_client: RestClient
     ):
         self.rest_client = rest_client
         self.base_url = "https://data.thetanarena.com/thetan/v1"
@@ -76,16 +76,10 @@ class ThetanApiService:
             new_dtos = await self.rest_client.get(paged_url, handler, self.limiter)
 
             filtered_dtos = []
-            try:
-                for dto in new_dtos:
-                    if parser.parse(dto["lastModified"]).timestamp() > later_than:
-                        filtered_dtos.append(dto)
-                        dtos.append(dto)
-            except Exception as e:
-                print(new_dtos)
-                # cursor += self.page_size
-                # continue
-                raise e
+            for dto in new_dtos:
+                if parser.parse(dto["lastModified"]).timestamp() > later_than:
+                    filtered_dtos.append(dto)
+                    dtos.append(dto)
 
             cursor += self.page_size
 
