@@ -22,7 +22,18 @@ class ThetanApiService:
         while True:
             paged_url = f"{url}&from={cursor}&size={self.page_size}"
 
-            new_dtos = await self.rest_client.get(paged_url, lambda data, text, response: data["data"], self.limiter)
+            def handler(data, text, response):
+                if data["success"] != True:
+                    message = "Error, code unknown received from server"
+
+                    if 'code' in data:
+                        message = f"Error, code {data['code']} received from server"
+
+                    raise Exception(message)
+
+                return data["data"]
+
+            new_dtos = await self.rest_client.get(paged_url, handler, self.limiter)
 
             filtered_dtos = []
 
@@ -51,14 +62,30 @@ class ThetanApiService:
         while True:
             paged_url = f"{url}&from={cursor}&size={self.page_size}"
 
-            new_dtos = await self.rest_client.get(paged_url, lambda data, text, response: data["data"], self.limiter)
+            def handler(data, text, response):
+                if data["success"] != True:
+                    message = "Error, code unknown received from server"
+
+                    if 'code' in data:
+                        message = f"Error, code {data['code']} received from server"
+
+                    raise Exception(message)
+
+                return data["data"]
+
+            new_dtos = await self.rest_client.get(paged_url, handler, self.limiter)
 
             filtered_dtos = []
-
-            for dto in new_dtos:
-                if parser.parse(dto["lastModified"]).timestamp() > later_than:
-                    filtered_dtos.append(dto)
-                    dtos.append(dto)
+            try:
+                for dto in new_dtos:
+                    if parser.parse(dto["lastModified"]).timestamp() > later_than:
+                        filtered_dtos.append(dto)
+                        dtos.append(dto)
+            except Exception as e:
+                print(new_dtos)
+                # cursor += self.page_size
+                # continue
+                raise e
 
             cursor += self.page_size
 
