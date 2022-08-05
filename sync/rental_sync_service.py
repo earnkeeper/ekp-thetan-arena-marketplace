@@ -48,8 +48,8 @@ class RentalSyncService:
 
             existing_document_ids.append(doc["id"])
 
-            if ("lastModified" in doc) and doc["lastModified"] > fetch_until:
-                fetch_until = doc["lastModified"]
+            if ("timestamp" in doc) and doc["timestamp"] > fetch_until:
+                fetch_until = doc["timestamp"]
 
         dtos = await self.thetan_api_service.get_latest_market_rentals(fetch_until, self.fetch_limit)
 
@@ -96,7 +96,7 @@ class RentalSyncService:
                 "daysCap": dto["rentOutInfo"]["periodHours"] / 24,
                 "dmg": dto["dmg"],
                 "hp": dto["hp"],
-                "lastModified": parser.parse(dto["lastModified"]).timestamp(),
+                "timestamp": parser.parse(dto["timestamp"]).timestamp(),
                 "level": dto["level"],
                 "name": dto["name"],
                 "ownerAddress": dto["ownerAddress"],

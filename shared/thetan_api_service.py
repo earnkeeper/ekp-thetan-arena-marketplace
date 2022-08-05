@@ -38,7 +38,7 @@ class ThetanApiService:
             filtered_dtos = []
 
             for dto in new_dtos:
-                if parser.parse(dto["lastModified"]).timestamp() > later_than:
+                if parser.parse(dto["timestamp"]).timestamp() > later_than:
                     filtered_dtos.append(dto)
                     dtos.append(dto)
 
@@ -77,7 +77,7 @@ class ThetanApiService:
 
             filtered_dtos = []
             for dto in new_dtos:
-                if parser.parse(dto["lastModified"]).timestamp() > later_than:
+                if parser.parse(dto["timestamp"]).timestamp() > later_than:
                     filtered_dtos.append(dto)
                     dtos.append(dto)
 
