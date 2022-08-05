@@ -96,6 +96,7 @@ class RentalSyncService:
                 "daysCap": dto["rentOutInfo"]["periodHours"] / 24,
                 "dmg": dto["dmg"],
                 "hp": dto["hp"],
+                "lastModified": parser.parse(dto["timestamp"]).timestamp(),
                 "timestamp": parser.parse(dto["timestamp"]).timestamp(),
                 "level": dto["level"],
                 "name": dto["name"],
